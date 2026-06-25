@@ -3,15 +3,37 @@ import { type Lang, useTranslations } from '../i18n/ui';
 
 interface Props {
   lang: Lang;
-  /** Optional video URL for background (autoplay/muted/loop). When null, shows a color placeholder. */
+  /**
+   * Vimeo video ID for background. Provides the cleanest embedded background video.
+   * Example: '76979871'. Leave null to render the placeholder gradient.
+   * → TODO Jaime: paste the Vimeo ID here when ready.
+   */
+  vimeoId?: string | null;
+  /** Alternative: direct .mp4 URL if not using Vimeo. */
   videoUrl?: string | null;
 }
-const { lang, videoUrl = null } = Astro.props;
+const { lang, vimeoId = null, videoUrl = null } = Astro.props;
 const t = useTranslations(lang);
+
+const vimeoSrc = vimeoId
+  ? `https://player.vimeo.com/video/${vimeoId}?background=1&autoplay=1&loop=1&muted=1&autopause=0&controls=0`
+  : null;
 ---
 
 <section class="relative isolate min-h-screen w-full overflow-hidden bg-n28-black text-n28-white">
-  {videoUrl ? (
+  {vimeoSrc && (
+    <div class="absolute inset-0 -z-10 overflow-hidden">
+      <iframe
+        src={vimeoSrc}
+        class="absolute left-1/2 top-1/2 h-[56.25vw] min-h-screen w-screen min-w-[177.78vh] -translate-x-1/2 -translate-y-1/2"
+        frameborder="0"
+        allow="autoplay; fullscreen; picture-in-picture"
+        title="N28PROJECT showreel"
+      />
+    </div>
+  )}
+
+  {!vimeoSrc && videoUrl && (
     <video
       class="absolute inset-0 -z-10 h-full w-full object-cover"
       src={videoUrl}
@@ -21,24 +43,22 @@ const t = useTranslations(lang);
       playsinline
       preload="metadata"
     />
-  ) : (
+  )}
+
+  {!vimeoSrc && !videoUrl && (
     <div
       class="absolute inset-0 -z-10 bg-gradient-to-br from-n28-black via-neutral-900 to-n28-blue/40"
+      aria-hidden="true"
     />
   )}
 
   <div class="absolute inset-0 -z-10 bg-n28-black/30" aria-hidden="true" />
 
-  <div class="relative z-10 flex min-h-screen flex-col justify-end px-6 pb-16 md:px-10 md:pb-24">
-    <p class="mb-6 max-w-md text-sm uppercase tracking-widest text-n28-white/80 md:text-base">
-      {t('hero.eyebrow')}
-    </p>
-
-    <h1 class="font-display text-[20vw] uppercase leading-[0.85] text-n28-red md:text-[14rem]">
-      {t('hero.title')}
-    </h1>
-
-    <div class="mt-8">
+  <div class="relative z-10 flex min-h-screen flex-col px-6 pb-16 md:px-10 md:pb-24">
+    <div class="mt-auto flex flex-col items-end gap-6 self-end text-right md:max-w-md">
+      <p class="text-base uppercase tracking-widest text-n28-white md:text-lg">
+        {t('hero.eyebrow')}
+      </p>
       <a
         href="#work"
         class="inline-flex items-center gap-3 border border-n28-white px-6 py-3 text-xs uppercase tracking-widest text-n28-white transition-colors hover:bg-n28-white hover:text-n28-black md:text-sm"

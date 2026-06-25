@@ -16,8 +16,9 @@ export const ui = {
     'hero.eyebrow': 'Proyectamos lo que todavía no se ve',
     'hero.title': 'Haz ruido',
     'hero.cta': 'Ver portfolio',
+    'about.title': 'Construimos mundos visuales',
     'about.body':
-      'N28PROJECT impulsa la identidad visual de artistas y marcas a través de piezas audiovisuales con narrativa, estilo y dirección cinematográfica.',
+      'N28PROJECT impulsa la identidad visual de artistas y marcas a través de piezas audiovisuales con narrativa, estilo y dirección cinematográfica. Tratamos cada historia como si fuera la nuestra.',
     'work.title': 'Proyectos',
     'services.title': 'Servicios',
     'services.list': [
@@ -43,8 +44,9 @@ export const ui = {
     'hero.eyebrow': "We shape what isn't visible yet",
     'hero.title': 'Make noise',
     'hero.cta': 'View portfolio',
+    'about.title': 'We build visual worlds',
     'about.body':
-      'N28PROJECT builds the visual identity of artists and brands through audiovisual pieces with narrative, style and cinematic direction.',
+      'N28PROJECT builds the visual identity of artists and brands through audiovisual pieces with narrative, style and cinematic direction. We treat every story as if it were our own.',
     'work.title': 'Work',
     'services.title': 'Services',
     'services.list': [

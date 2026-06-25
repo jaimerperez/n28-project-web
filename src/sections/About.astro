@@ -1,0 +1,20 @@
+---
+import { type Lang, useTranslations } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section id="about" class="relative bg-n28-black px-6 py-24 text-n28-white md:px-10 md:py-40">
+  <div class="mx-auto max-w-6xl">
+    <h2 class="font-display text-balance text-[14vw] uppercase leading-[0.85] md:text-[10rem]">
+      {t('about.title')}
+    </h2>
+    <p class="mt-12 max-w-2xl text-base leading-relaxed text-n28-white/80 md:text-lg">
+      {t('about.body')}
+    </p>
+  </div>
+</section>
