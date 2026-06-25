@@ -1,0 +1,45 @@
+---
+interface Props {
+  /** Text repeated across the marquee */
+  text: string;
+  /** Separator between repetitions */
+  separator?: string;
+  /** How many times to repeat inside one half (full strip = repeated x2) */
+  repeat?: number;
+  /** Animation duration */
+  duration?: string;
+  /** Background and text color via Tailwind classes */
+  class?: string;
+}
+
+const {
+  text,
+  separator = '★',
+  repeat = 8,
+  duration = '25s',
+  class: className = 'bg-n28-black text-n28-white',
+} = Astro.props;
+
+const items = Array.from({ length: repeat }, () => text);
+---
+
+<div
+  class:list={[
+    'relative w-full overflow-hidden border-y border-current/10 py-4 font-display select-none',
+    className,
+  ]}
+  style={`--marquee-duration: ${duration}`}
+>
+  <div class="flex w-max animate-marquee whitespace-nowrap">
+    {[0, 1].map(() => (
+      <ul class="flex shrink-0 items-center gap-8 pr-8" aria-hidden={false}>
+        {items.map((t) => (
+          <li class="flex items-center gap-8 text-4xl uppercase tracking-tight md:text-5xl">
+            <span>{t}</span>
+            <span class="text-2xl opacity-70">{separator}</span>
+          </li>
+        ))}
+      </ul>
+    ))}
+  </div>
+</div>

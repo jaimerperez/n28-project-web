@@ -1,0 +1,45 @@
+---
+interface Props {
+  /** Fill color of the tear (the color "underneath" that gets revealed) */
+  color?: string;
+  /** "top" = tear at the top edge, "bottom" = tear at the bottom edge */
+  edge?: 'top' | 'bottom';
+  /** Height of the tear strip in px */
+  height?: number;
+  class?: string;
+}
+
+const {
+  color = 'var(--color-n28-black)',
+  edge = 'bottom',
+  height = 60,
+  class: className = '',
+} = Astro.props;
+
+// Random-ish jagged path generated with a deterministic seed of points.
+// Range x:0..1440, height defined by --tear-h.
+const points = [
+  [0, 40], [60, 18], [130, 52], [210, 24], [290, 46], [370, 12],
+  [450, 50], [520, 22], [600, 44], [680, 16], [760, 48], [840, 26],
+  [920, 52], [1000, 14], [1080, 46], [1160, 24], [1240, 50], [1320, 18],
+  [1400, 44], [1440, 28],
+];
+
+const pathDown = `M0,0 ${points.map(([x, y]) => `L${x},${y}`).join(' ')} L1440,0 Z`;
+const pathUp = `M0,${height} ${points.map(([x, y]) => `L${x},${height - y}`).join(' ')} L1440,${height} Z`;
+---
+
+<div
+  class:list={['pointer-events-none w-full', className]}
+  style={`height: ${height}px;`}
+  aria-hidden="true"
+>
+  <svg
+    viewBox={`0 0 1440 ${height}`}
+    preserveAspectRatio="none"
+    class="block h-full w-full"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d={edge === 'top' ? pathUp : pathDown} fill={color} />
+  </svg>
+</div>

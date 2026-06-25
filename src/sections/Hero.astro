@@ -1,0 +1,51 @@
+---
+import { type Lang, useTranslations } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  /** Optional video URL for background (autoplay/muted/loop). When null, shows a color placeholder. */
+  videoUrl?: string | null;
+}
+const { lang, videoUrl = null } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section class="relative isolate min-h-screen w-full overflow-hidden bg-n28-black text-n28-white">
+  {videoUrl ? (
+    <video
+      class="absolute inset-0 -z-10 h-full w-full object-cover"
+      src={videoUrl}
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+    />
+  ) : (
+    <div
+      class="absolute inset-0 -z-10 bg-gradient-to-br from-n28-black via-neutral-900 to-n28-blue/40"
+    />
+  )}
+
+  <div class="absolute inset-0 -z-10 bg-n28-black/30" aria-hidden="true" />
+
+  <div class="relative z-10 flex min-h-screen flex-col justify-end px-6 pb-16 md:px-10 md:pb-24">
+    <p class="mb-6 max-w-md text-sm uppercase tracking-widest text-n28-white/80 md:text-base">
+      {t('hero.eyebrow')}
+    </p>
+
+    <h1 class="font-display text-[20vw] uppercase leading-[0.85] text-n28-red md:text-[14rem]">
+      {t('hero.title')}
+    </h1>
+
+    <div class="mt-8">
+      <a
+        href="#work"
+        class="inline-flex items-center gap-3 border border-n28-white px-6 py-3 text-xs uppercase tracking-widest text-n28-white transition-colors hover:bg-n28-white hover:text-n28-black md:text-sm"
+      >
+        <span>{t('hero.cta')}</span>
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</section>

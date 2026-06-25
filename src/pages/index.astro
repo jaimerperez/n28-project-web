@@ -1,17 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../sections/Hero.astro';
+import Marquee from '../components/Marquee.astro';
 ---
 
-<Layout title="Videobooks — Placeholder">
-  <main class="mx-auto flex min-h-screen max-w-3xl flex-col items-center justify-center px-6 text-center">
-    <p class="mb-4 text-sm uppercase tracking-widest text-neutral-400">
-      Work in progress
-    </p>
-    <h1 class="text-balance text-5xl font-semibold tracking-tight sm:text-6xl">
-      Landing de videobooks
-    </h1>
-    <p class="mt-6 max-w-xl text-balance text-neutral-300">
-      Scaffolding de Astro + Tailwind v4 listo. Las secciones reales se montan en la siguiente fase.
-    </p>
-  </main>
+<Layout lang="es">
+  <Header lang="es" />
+  <Hero lang="es" />
+  <Marquee text="N28PROJECT" class="bg-n28-red text-n28-white" />
 </Layout>

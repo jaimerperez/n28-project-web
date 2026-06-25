@@ -1,0 +1,28 @@
+---
+interface Props {
+  /** Text color, defaults to currentColor so it inherits */
+  color?: string;
+  /** Tailwind class for sizing (height) */
+  class?: string;
+}
+
+const { color = 'currentColor', class: className = 'h-8' } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 120 48"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-label="N28PROJECT"
+  role="img"
+  class={className}
+>
+  <text
+    x="0"
+    y="40"
+    font-family="Anton, Impact, sans-serif"
+    font-size="48"
+    font-weight="900"
+    fill={color}
+    letter-spacing="-1"
+  >N28</text>
+</svg>

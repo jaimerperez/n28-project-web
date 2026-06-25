@@ -1,1 +1,39 @@
 @import "tailwindcss";
+
+@theme {
+  /* N28PROJECT palette */
+  --color-n28-blue: #1f18ff;
+  --color-n28-red: #ff3e1f;
+  --color-n28-black: #000000;
+  --color-n28-white: #ffffff;
+
+  /* Typography */
+  --font-display: "Anton", "Impact", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    font-family: var(--font-sans);
+  }
+}
+
+@utility font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+  line-height: 0.85;
+}
+
+/* Marquee animation — duplicate content inside to loop seamlessly */
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@utility animate-marquee {
+  animation: marquee-x var(--marquee-duration, 25s) linear infinite;
+}
