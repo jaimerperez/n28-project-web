@@ -1,0 +1,65 @@
+---
+import { type Lang, useTranslations } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+// TODO Jaime: replace placeholders with real projects.
+// Each item will eventually become a /work/[slug] detail page.
+const projects: Array<{
+  slug: string;
+  title: string;
+  cover?: string;
+}> = [
+  { slug: 'placeholder-1', title: 'Project 01' },
+  { slug: 'placeholder-2', title: 'Project 02' },
+  { slug: 'placeholder-3', title: 'Project 03' },
+  { slug: 'placeholder-4', title: 'Project 04' },
+];
+---
+
+<section id="work" class="relative bg-n28-red text-n28-white">
+  <div class="mx-auto grid max-w-7xl gap-12 px-6 py-24 md:grid-cols-12 md:px-10 md:py-32">
+    <div class="md:col-span-7">
+      <h2 class="font-display text-[20vw] uppercase leading-[0.85] md:text-[12rem]">
+        {t('work.title')}
+      </h2>
+    </div>
+
+    <p class="text-sm uppercase tracking-widest text-n28-white md:col-span-5 md:self-end md:text-base">
+      {t('work.claim')}
+    </p>
+
+    <div class="grid grid-cols-2 gap-3 md:col-span-12 md:grid-cols-4 md:gap-5">
+      {projects.map((p) => (
+        <a
+          href={`/work/${p.slug}`}
+          class="group relative block aspect-[4/5] overflow-hidden bg-n28-black/40"
+          aria-label={p.title}
+        >
+          {p.cover ? (
+            <img
+              src={p.cover}
+              alt={p.title}
+              class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+          ) : (
+            <div
+              class="flex h-full w-full items-center justify-center bg-gradient-to-br from-n28-black via-neutral-900 to-n28-red/40 text-xs uppercase tracking-widest text-n28-white/60"
+            >
+              {p.title}
+            </div>
+          )}
+          <span
+            class="absolute bottom-3 left-3 text-xs uppercase tracking-widest text-n28-white opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          >
+            {p.title} →
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

@@ -9,9 +9,9 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 
 const navItems = [
+  { href: '#home', label: t('nav.home') },
   { href: '#work', label: t('nav.work') },
-  { href: '#services', label: t('nav.services') },
-  { href: '#about', label: t('nav.about') },
+  { href: '#team', label: t('nav.team') },
   { href: '#contact', label: t('nav.contact') },
 ];
 
@@ -22,10 +22,9 @@ const otherLangHref = lang === 'es' ? '/en/' : '/';
 <header class="absolute inset-x-0 top-0 z-30 flex items-start justify-between p-6 md:p-10">
   <nav class="flex flex-col gap-1 text-xs uppercase tracking-widest text-n28-white/90">
     {navItems.map((item) => (
-      <a
-        href={item.href}
-        class="transition-opacity hover:opacity-60"
-      >{item.label}</a>
+      <a href={item.href} class="transition-opacity hover:opacity-60">
+        {item.label}
+      </a>
     ))}
   </nav>
 

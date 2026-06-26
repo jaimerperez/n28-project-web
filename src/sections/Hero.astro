@@ -20,7 +20,7 @@ const vimeoSrc = vimeoId
   : null;
 ---
 
-<section class="relative isolate min-h-screen w-full overflow-hidden bg-n28-black text-n28-white">
+<section id="home" class="relative isolate min-h-screen w-full overflow-hidden bg-n28-black text-n28-white">
   {vimeoSrc && (
     <div class="absolute inset-0 -z-10 overflow-hidden">
       <iframe
@@ -54,9 +54,9 @@ const vimeoSrc = vimeoId
 
   <div class="absolute inset-0 -z-10 bg-n28-black/30" aria-hidden="true" />
 
-  <div class="relative z-10 flex min-h-screen flex-col px-6 pb-16 md:px-10 md:pb-24">
-    <div class="mt-auto flex flex-col items-end gap-6 self-end text-right md:max-w-md">
-      <p class="text-base uppercase tracking-widest text-n28-white md:text-lg">
+  <div class="relative z-10 flex min-h-screen items-center justify-end px-6 pt-24 md:px-10 md:pt-32">
+    <div class="flex max-w-xs flex-col items-end gap-6 text-right md:max-w-md">
+      <p class="text-sm uppercase tracking-widest text-n28-white md:text-base">
         {t('hero.eyebrow')}
       </p>
       <a

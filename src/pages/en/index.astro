@@ -3,6 +3,9 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Hero from '../../sections/Hero.astro';
 import About from '../../sections/About.astro';
+import Work from '../../sections/Work.astro';
+import Team from '../../sections/Team.astro';
+import Contact from '../../sections/Contact.astro';
 import Marquee from '../../components/Marquee.astro';
 import PaperTear from '../../components/PaperTear.astro';
 ---
@@ -11,7 +14,11 @@ import PaperTear from '../../components/PaperTear.astro';
   <Header lang="en" />
   {/* TODO Jaime: paste Vimeo ID here, e.g. vimeoId="76979871" */}
   <Hero lang="en" vimeoId={null} />
-  <Marquee text="N28PROJECT" class="bg-n28-red text-n28-white" />
-  <PaperTear color="var(--color-n28-black)" edge="top" />
+  <PaperTear color="var(--color-n28-white)" edge="top" height={80} />
   <About lang="en" />
+  <Marquee text="N28PROJECT" class="bg-n28-red text-n28-white" />
+  <Work lang="en" />
+  <PaperTear color="var(--color-n28-black)" edge="top" height={80} />
+  <Team lang="en" />
+  <Contact lang="en" />
 </Layout>

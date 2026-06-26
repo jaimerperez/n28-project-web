@@ -1,0 +1,73 @@
+---
+import { type Lang, useTranslations } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+// TODO Jaime: real handles/URLs
+const socials = [
+  { label: 'Instagram', href: 'https://instagram.com/n28project' },
+  { label: 'Vimeo', href: 'https://vimeo.com/n28project' },
+];
+
+const year = new Date().getFullYear();
+---
+
+<section id="contact" class="relative">
+  <!-- CTA: blue panel -->
+  <div class="bg-n28-blue px-6 py-24 text-n28-white md:px-10 md:py-32">
+    <h2 class="mx-auto max-w-6xl font-display text-[14vw] uppercase leading-[0.85] md:text-[10rem]">
+      {t('contact.title')}
+    </h2>
+  </div>
+
+  <!-- Contact + footer: black panel -->
+  <div class="bg-n28-black px-6 pt-20 pb-10 text-n28-white md:px-10 md:pt-28">
+    <div class="mx-auto grid max-w-6xl gap-12 md:grid-cols-12">
+      <div class="md:col-span-8">
+        <p class="text-xs uppercase tracking-widest text-n28-white/60">
+          {t('contact.label')}
+        </p>
+        <a
+          href={`mailto:${t('contact.email')}`}
+          class="mt-3 inline-block break-all font-display text-4xl uppercase text-n28-white transition-opacity hover:opacity-70 md:text-6xl"
+        >
+          {t('contact.email')}
+        </a>
+      </div>
+
+      <div class="md:col-span-2">
+        <p class="text-xs uppercase tracking-widest text-n28-white/60">
+          {t('contact.city')}
+        </p>
+      </div>
+
+      <div class="md:col-span-2">
+        <p class="text-xs uppercase tracking-widest text-n28-white/60">
+          {t('contact.follow')}
+        </p>
+        <ul class="mt-3 flex flex-col gap-1 text-sm uppercase">
+          {socials.map((s) => (
+            <li>
+              <a
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="hover:underline"
+              >
+                {s.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <p class="mx-auto mt-16 max-w-6xl text-[10px] uppercase tracking-widest text-n28-white/40">
+      © {year} N28PROJECT
+    </p>
+  </div>
+</section>
