@@ -10,8 +10,8 @@ export type Lang = keyof typeof languages;
 export const ui = {
   es: {
     'nav.home': 'Inicio',
+    'nav.about': 'Nosotros',
     'nav.work': 'Proyectos',
-    'nav.team': 'Equipo',
     'nav.contact': 'Contacto',
 
     'hero.eyebrow': 'Proyectamos lo que todavía no se ve',
@@ -42,8 +42,8 @@ export const ui = {
   },
   en: {
     'nav.home': 'Home',
+    'nav.about': 'About',
     'nav.work': 'Work',
-    'nav.team': 'Team',
     'nav.contact': 'Contact',
 
     'hero.eyebrow': "We shape what isn't visible yet",
