@@ -7,59 +7,275 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
-// TODO Jaime: replace placeholders with real projects.
-// Each item will eventually become a /work/[slug] detail page.
-const projects: Array<{
+interface Project {
   slug: string;
   title: string;
-  cover?: string;
-}> = [
-  { slug: 'placeholder-1', title: 'Project 01' },
-  { slug: 'placeholder-2', title: 'Project 02' },
-  { slug: 'placeholder-3', title: 'Project 03' },
-  { slug: 'placeholder-4', title: 'Project 04' },
+  /** Vimeo video ID for the preview clip, e.g. '76979871'. */
+  vimeoId?: string;
+  /** Alternative: direct .mp4 URL if not using Vimeo. */
+  videoUrl?: string;
+  poster?: string;
+}
+
+// TODO Jaime: replace placeholders with real projects (vimeoId or videoUrl per item).
+// Each item will eventually become a /work/[slug] detail page.
+const projects: Project[] = [
+  { slug: 'placeholder-1', title: 'Project 01', vimeoId: '1182737117' },
+  { slug: 'placeholder-2', title: 'Project 02', vimeoId: '1182737117' },
+  { slug: 'placeholder-3', title: 'Project 03', vimeoId: '1182737117' },
+  { slug: 'placeholder-4', title: 'Project 04', vimeoId: '1182737117' },
 ];
 ---
 
-<section id="work" class="relative bg-n28-red text-n28-white">
-  <div class="mx-auto grid max-w-7xl gap-12 px-6 py-24 md:grid-cols-12 md:px-10 md:py-32">
-    <div class="md:col-span-7">
-      <h2 class="font-display text-[20vw] uppercase leading-[0.85] md:text-[12rem]">
-        {t('work.title')}
-      </h2>
+<section id="work" class="relative overflow-hidden bg-n28-red text-n28-white">
+  <div class="mx-auto max-w-7xl px-6 py-24 md:px-10 md:py-32">
+    <div class="grid gap-12 md:grid-cols-12">
+      <div class="md:col-span-7">
+        <h2 class="font-display text-[20vw] uppercase leading-[0.85] md:text-[12rem]">
+          {t('work.title')}
+        </h2>
+      </div>
+
+      <p class="text-sm uppercase tracking-widest text-n28-white md:col-span-5 md:self-end md:text-base">
+        {t('work.claim')}
+      </p>
     </div>
 
-    <p class="text-sm uppercase tracking-widest text-n28-white md:col-span-5 md:self-end md:text-base">
-      {t('work.claim')}
-    </p>
-
-    <div class="grid grid-cols-2 gap-3 md:col-span-12 md:grid-cols-4 md:gap-5">
-      {projects.map((p) => (
-        <a
-          href={`/work/${p.slug}`}
-          class="group relative block aspect-[4/5] overflow-hidden bg-n28-black/40"
-          aria-label={p.title}
-        >
-          {p.cover ? (
-            <img
-              src={p.cover}
-              alt={p.title}
-              class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-            />
-          ) : (
-            <div
-              class="flex h-full w-full items-center justify-center bg-gradient-to-br from-n28-black via-neutral-900 to-n28-red/40 text-xs uppercase tracking-widest text-n28-white/60"
-            >
-              {p.title}
-            </div>
-          )}
-          <span
-            class="absolute bottom-3 left-3 text-xs uppercase tracking-widest text-n28-white opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+    <div class="relative mt-12 md:mt-16">
+      <div
+        id="work-track"
+        class="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-4 [-webkit-mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)] [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)] [scrollbar-width:none] md:gap-6 [&::-webkit-scrollbar]:hidden"
+      >
+        {projects.map((p, i) => (
+          <a
+            href={`/work/${p.slug}`}
+            aria-label={p.title}
+            data-index={i}
+            class="work-slide group relative block aspect-video w-[80vw] flex-shrink-0 snap-center overflow-hidden bg-n28-black/40 opacity-40 grayscale scale-90 transition-all duration-700 ease-out [&.is-active]:scale-105 [&.is-active]:opacity-100 [&.is-active]:grayscale-0 sm:w-[55vw] md:w-[42vw] lg:w-[30vw] lg:max-w-2xl"
           >
-            {p.title} →
+            <div class="absolute inset-0 transition-transform duration-500 ease-out group-hover:scale-110">
+              {p.poster ? (
+                <img
+                  src={p.poster}
+                  alt={p.title}
+                  class="absolute inset-0 h-full w-full object-cover"
+                />
+              ) : (
+                <div class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-n28-black via-neutral-900 to-n28-black/40 text-xs uppercase tracking-widest text-n28-white/60">
+                  {p.title}
+                </div>
+              )}
+
+              {p.vimeoId && (
+                <div class="vimeo-box absolute inset-0 overflow-hidden" data-vimeo-id={p.vimeoId} />
+              )}
+
+              {!p.vimeoId && p.videoUrl && (
+                <video
+                  class="absolute inset-0 h-full w-full object-cover"
+                  src={p.videoUrl}
+                  poster={p.poster}
+                  muted
+                  loop
+                  playsinline
+                  preload="metadata"
+                />
+              )}
+            </div>
+
+            <span class="absolute bottom-3 left-3 text-xs uppercase tracking-widest text-n28-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              {p.title} →
+            </span>
+          </a>
+        ))}
+      </div>
+
+      <div class="mt-8 flex items-center justify-center gap-5 text-xs uppercase tracking-widest text-n28-white/80 md:text-sm">
+        <button
+          type="button"
+          data-dir="-1"
+          aria-label="Previous"
+          class="work-arrow text-base transition-opacity hover:opacity-60 md:text-lg"
+        >
+          ←
+        </button>
+        <p class="flex items-center gap-2">
+          <span id="work-active-title">{projects[0]?.title}</span>
+          <span class="text-n28-white/40">—</span>
+          <span id="work-counter" class="font-display tracking-normal">
+            01 / {String(projects.length).padStart(2, '0')}
           </span>
-        </a>
-      ))}
+        </p>
+        <button
+          type="button"
+          data-dir="1"
+          aria-label="Next"
+          class="work-arrow text-base transition-opacity hover:opacity-60 md:text-lg"
+        >
+          →
+        </button>
+      </div>
     </div>
   </div>
 </section>
+
+<script>
+  const track = document.getElementById('work-track');
+
+  if (track) {
+    const realSlides = Array.from(track.querySelectorAll<HTMLAnchorElement>('.work-slide'));
+    const ADVANCE_MS = 15000;
+
+    // Clone the first/last slide into each end so the carousel can loop
+    // seamlessly: landing on a clone triggers an instant (invisible) jump
+    // to its real counterpart, since both render identical content.
+    let slides = realSlides;
+    if (realSlides.length > 1) {
+      const lastClone = realSlides[realSlides.length - 1].cloneNode(true) as HTMLAnchorElement;
+      const firstClone = realSlides[0].cloneNode(true) as HTMLAnchorElement;
+      lastClone.dataset.cloneRealIndex = String(realSlides.length - 1);
+      firstClone.dataset.cloneRealIndex = '0';
+      for (const clone of [lastClone, firstClone]) {
+        clone.setAttribute('aria-hidden', 'true');
+        clone.setAttribute('tabindex', '-1');
+      }
+      track.insertBefore(lastClone, realSlides[0]);
+      track.appendChild(firstClone);
+      slides = [lastClone, ...realSlides, firstClone];
+    }
+
+    let activeSlide: HTMLAnchorElement | null = null;
+    let advanceTimer: ReturnType<typeof setInterval> | undefined;
+    let settleTimer: ReturnType<typeof setTimeout> | undefined;
+
+    function playSlide(slide: HTMLAnchorElement) {
+      const video = slide.querySelector<HTMLVideoElement>('video');
+      if (video) video.play().catch(() => {});
+
+      const vimeoBox = slide.querySelector<HTMLDivElement>('.vimeo-box');
+      if (vimeoBox && !vimeoBox.querySelector('iframe')) {
+        const id = vimeoBox.dataset.vimeoId;
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://player.vimeo.com/video/${id}?background=1&autoplay=1&loop=1&muted=1&autopause=0&controls=0`;
+        iframe.allow = 'autoplay; fullscreen; picture-in-picture';
+        iframe.title = slide.getAttribute('aria-label') ?? '';
+        iframe.className =
+          'absolute left-1/2 top-1/2 h-[56.25vw] min-h-full w-[177.78vh] min-w-full -translate-x-1/2 -translate-y-1/2 border-0';
+        vimeoBox.appendChild(iframe);
+      }
+    }
+
+    function pauseSlide(slide: HTMLAnchorElement) {
+      const video = slide.querySelector<HTMLVideoElement>('video');
+      if (video) video.pause();
+
+      const iframe = slide.querySelector<HTMLIFrameElement>('.vimeo-box iframe');
+      if (iframe) iframe.remove();
+    }
+
+    function restartAutoAdvance() {
+      clearInterval(advanceTimer);
+      advanceTimer = setInterval(goNext, ADVANCE_MS);
+    }
+
+    const titleEl = document.getElementById('work-active-title');
+    const counterEl = document.getElementById('work-counter');
+
+    function setActive(slide: HTMLAnchorElement) {
+      if (slide === activeSlide) return;
+      if (activeSlide) {
+        activeSlide.classList.remove('is-active');
+        pauseSlide(activeSlide);
+      }
+      slide.classList.add('is-active');
+      playSlide(slide);
+      activeSlide = slide;
+
+      const idx = realSlides.indexOf(slide);
+      if (titleEl) titleEl.textContent = slide.getAttribute('aria-label') ?? '';
+      if (counterEl) {
+        counterEl.textContent = `${String(idx + 1).padStart(2, '0')} / ${String(realSlides.length).padStart(2, '0')}`;
+      }
+
+      restartAutoAdvance();
+    }
+
+    function closestToCenter(): HTMLAnchorElement {
+      const trackRect = track!.getBoundingClientRect();
+      const center = trackRect.left + trackRect.width / 2;
+      let closest = slides[0];
+      let minDist = Infinity;
+      for (const slide of slides) {
+        const r = slide.getBoundingClientRect();
+        const dist = Math.abs(r.left + r.width / 2 - center);
+        if (dist < minDist) {
+          minDist = dist;
+          closest = slide;
+        }
+      }
+      return closest;
+    }
+
+    function scrollToSlide(slide: HTMLAnchorElement, smooth = true) {
+      const trackRect = track!.getBoundingClientRect();
+      const slideRect = slide.getBoundingClientRect();
+      const delta = slideRect.left + slideRect.width / 2 - (trackRect.left + trackRect.width / 2);
+      track!.scrollBy({ left: delta, behavior: smooth ? 'smooth' : 'auto' });
+    }
+
+    function goNext() {
+      const idx = slides.indexOf(activeSlide ?? slides[0]);
+      scrollToSlide(slides[Math.min(idx + 1, slides.length - 1)]);
+    }
+
+    function goPrev() {
+      const idx = slides.indexOf(activeSlide ?? slides[0]);
+      scrollToSlide(slides[Math.max(idx - 1, 0)]);
+    }
+
+    function updateEdgePadding() {
+      const first = slides[0];
+      if (!first || !track) return;
+      const pad = Math.max(0, (track.clientWidth - first.getBoundingClientRect().width) / 2);
+      track.style.paddingLeft = `${pad}px`;
+      track.style.paddingRight = `${pad}px`;
+    }
+
+    track.addEventListener('scroll', () => {
+      clearTimeout(settleTimer);
+      settleTimer = setTimeout(() => {
+        const closest = closestToCenter();
+        const cloneRealIndex = closest.dataset.cloneRealIndex;
+        if (cloneRealIndex !== undefined) {
+          const real = realSlides[Number(cloneRealIndex)];
+          scrollToSlide(real, false);
+          setActive(real);
+        } else {
+          setActive(closest);
+        }
+      }, 120);
+    });
+
+    document.querySelectorAll<HTMLButtonElement>('.work-arrow').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (btn.dataset.dir === '-1') goPrev();
+        else goNext();
+      });
+    });
+
+    window.addEventListener('resize', () => {
+      updateEdgePadding();
+      scrollToSlide(activeSlide ?? realSlides[0], false);
+    });
+
+    function init() {
+      updateEdgePadding();
+      scrollToSlide(realSlides[0], false);
+      setActive(realSlides[0]);
+    }
+
+    // Wait for fonts (Anton) to finish loading so getBoundingClientRect()
+    // returns correct dimensions on the very first visit.
+    document.fonts.ready.then(init);
+  }
+</script>
